@@ -1,0 +1,81 @@
+﻿@model List<Web_VANDAOPC.Models.Cart>
+@{
+    ViewBag.Title = "Giỏ Hàng";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+
+@{int i = 1; double totPrice = 0;}
+
+<div class="container-fluid">
+    <div class="text-danger text-center mb-3" style="margin-top: -20px">
+        <h2>GIỎ HÀNG</h2>
+    </div>
+    <table class="table table-bordered">
+        <tr class="text-center">
+            <th>STT</th>
+            <th>Tên Sản Phẩm</th>
+            <th>Số Lượng</th>
+            <th>Tổng Tiền</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr class="text-center">
+                <td>@i</td>
+                <td>@item.Product.Name</td>
+                <td>
+                    @using (Html.BeginForm("UpdateQuantity", "Cart", FormMethod.Get))
+                    {
+                        <input type="number" value="@item.Quantity" name="quantity" min="1" style="width: 80px;" />
+                        <input type="hidden" name="proid" value="@item.Id" />
+                        <button type="submit" id="UpdateQuantity" class="btn btn-success mx-2">Cập Nhật</button>
+                        <a href="\Cart\Delete\@item.Id" id="DeleteProduct" class="btn btn-danger"> Xóa </a>
+
+                    }
+                </td>
+                <td>
+                    @{
+                        double Price = Convert.ToDouble(item.Quantity * item.Product.Price);
+                        i++;
+                        totPrice += Price;
+                    }
+                    @Price.ToString("N0") VND
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="3" class="text-center fw-bold">Total Price</td>
+            <td class="text-center fw-bold">@totPrice.ToString("N0") VND</td>
+        </tr>
+    </table>
+    <div class="text-danger text-left mb-3">
+        <a href="/Home/Index" class="btn btn-success">Tiếp Tục Mua Sắm</a>
+        <a href="/Cart/Pay" id="PayButton" class="btn btn-danger">Thanh Toán</a>
+    </div>
+</div>
+<script>
+        
+    function updateButtonState() {
+        // Lấy PayButton
+        var PayButton = document.getElementById('PayButton');
+
+        // Kiểm tra nếu tổng là 0 thì thêm thuộc tính disabled, ngược lại loại bỏ thuộc tính disabled
+        if (@totPrice === 0) {
+            PayButton.classList.add('disabled');
+            PayButton.setAttribute('aria-disabled', 'true');
+        }
+        else
+        {
+            PayButton.classList.remove('disabled');
+            PayButton.removeAttribute('aria-disabled');
+        }
+    }
+    // Gọi hàm một lần khi trang web được tải hoàn toàn
+    document.addEventListener('DOMContentLoaded', function() {
+        updateButtonState();
+    });
+
+    // Gọi hàm khi có sự thay đổi UpdateQuantity
+    document.getElementById('UpdateQuantity').addEventListener('click', updateButtonState);
+    document.getElementById('DeleteProduct').addEventListener('click', updateButtonState);
+</script>

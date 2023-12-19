@@ -1,0 +1,158 @@
+﻿@model List<Web_VANDAOPC.Models.Product>
+@{
+    ViewBag.Title = "Quản Lý Sản Phẩm";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<div class="container-fluid">
+    <h3 class="text-danger text-center" style="font-size: 2em; text-transform: uppercase;">
+        Quản Lý Sản Phẩm
+    </h3>
+
+    <div class="container-fluid mt-3">
+        
+        <div class="container-fluid d-flex align-items-center" style="display: flex;">
+            <div class="container-fluid p-3" style="display: flex; justify-content: start;">
+                @using (Html.BeginForm("Index", "Product", FormMethod.Get, new { id = "MyForm" }))
+                {
+                    <p class="container-fluid">
+                        @Html.DropDownList("SortOrder", new List<SelectListItem>
+                        {
+                       new SelectListItem{Text="Sắp xếp theo Tên", Value="Name"},
+                       new SelectListItem{Text="Sắp xếp theo Loại Sản Phẩm", Value="CatId"},
+                       new SelectListItem{Text="Sắp xếp theo ID", Value="Id"},
+                       new SelectListItem{Text="Sắp xếp theo Giá Tiền(Thấp Đến Cao)", Value="Price-A-Z"},
+                       new SelectListItem{Text="Sắp xếp theo Giá Tiền(Cao Đến Thấp)", Value="Price-Z-A"},
+                        }, "Chọn cách sắp xếp...")
+                    </p>
+                }
+
+            </div>
+            <div class="container-fluid p-3" style="display: flex; justify-content: end;">
+                <form class="d-flex mx-4" role="search" action="\Product\Index?Search=@ViewBag.Search" method="post">
+                    <input class="form-control me-1" type="search" id="Search" name="Search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+                <a class="btn btn-danger text-white" href="\Product\Create">Thêm Sản Phẩm</a>
+            </div>         
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center align-middle">
+                    <th scope="col">ID</th>
+                    <th scope="col">Tên SP</th>
+                    <th scope="col">Giá Tiền</th>
+                    <th scope="col">Thương Hiệu</th>
+                    <th scope="col">Thông Số</th>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col">Tình Trạng</th>
+                    <th scope="col">Chi Tiết SP</th>
+                    <th scope="col">Danh Mục</th>
+                    <th scope="col">Chức Năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">@Html.DisplayFor(row => item.Id)</td>
+                        <td>@Html.DisplayFor(row => item.Name)</td>
+                        <td>@Html.DisplayFor(row => item.Price)</td>
+                        <td>@Html.DisplayFor(row => item.Brand)</td>
+                        <td>@Html.DisplayFor(row => item.Details)</td>
+                        <td><img src="~/Images/@item.Img" class="card-img-top" /></td>
+                        <td>@Html.DisplayFor(row => item.Status)</td>
+                        <td style="text-align: justify">@Html.DisplayFor(row => item.Description)</td>
+                        <td>@Html.DisplayFor(row => item.Category.Name)</td>
+                        <td class="text-center">
+                            <p class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Xóa</p>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4 class="text-danger">Bạn Có Chắc Muốn Xóa Sản Phẩm?</h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-danger" href="\Product\Delete\@item.Id">Có</a>
+                                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Không</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="btn btn-success" href="\Product\Edit\@item.Id">Sửa</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="3">
+                        @{
+                            int PrevPage = ViewBag.page - 1;
+                            if (PrevPage <= 0)
+                            {
+                                PrevPage = 1;
+                            }
+                            int Nextpage = ViewBag.page + 1;
+                            if (Nextpage > ViewBag.NoOfPages)
+                            {
+                                Nextpage = ViewBag.NoOfPages;
+                            }
+                        }
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" href="\Product\Index?Search=@ViewBag.Search&SortOrder=@ViewBag.SortOrder&page=@PrevPage">
+                                    Prev
+                                </a>
+                            </li>
+                            @for (int i = 0; i < ViewBag.NoOfPages; i++)
+                            {
+                                if (i + 1 == ViewBag.page)
+                                {
+                                    <li class="page-item active">
+                                        <a class="page-link" href="\Product\Index?Search=@ViewBag.Search&SortOrder=@ViewBag.SortOrder&page=@(i+1)">
+                                            @(i + 1)
+                                        </a>
+                                    </li>
+
+                                }
+                                else
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="\Product\Index?Search=@ViewBag.Search&SortOrder=@ViewBag.SortOrder&page=@(i+1)">
+                                            @(i + 1)
+                                        </a>
+                                    </li>
+
+                                }
+
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="\Product\Index?Search=@ViewBag.Search&SortOrder=@ViewBag.SortOrder&page=@Nextpage">
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <script>
+        $(function () {
+            $('#SortOrder').change(function () {
+                $('#MyForm').submit();
+            });
+        });
+    </script>
+</div>
+

@@ -1,0 +1,84 @@
+﻿@model Web_VANDAOPC.Models.User
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+<style>
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
+</style>
+<div class="container-fluid">
+    <div class="text-danger text-center" style="margin-top: -20px">
+        <h2>ĐĂNG KÝ</h2>
+    </div>
+    <section class="vh-100">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-9 col-lg-6 col-xl-5">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                         class="img-fluid" alt="Sample image">
+                </div>
+                <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                    @using (Html.BeginForm("Register", "User", FormMethod.Post, new { id = "RegisterForm" }))
+                    {
+                        <!-- Role input -->
+                        <input type="hidden" name="Role" value="user" />
+                        <!-- Username input -->
+                        <div class="form-outline mb-4">
+                            @Html.LabelFor(row => Model.UserName, "Tên đăng nhập", new { @Class = "form-label" })
+                            @Html.TextBoxFor(row => Model.UserName, new { @Class = "form-control form-control-lg", placeholder = "Nhập vào tên đăng nhập" })
+                            @Html.ValidationMessageFor(row => Model.UserName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <!-- DisplayName input -->
+                        <div class="form-outline mb-3">
+                            @Html.LabelFor(row => Model.DisplayName, "Họ tên người dùng", new { @Class = "form-label" })
+                            @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control form-control-lg", placeholder = "Nhập vào họ tên" })
+                            @Html.ValidationMessageFor(row => Model.DisplayName, "", new { @class = "text-danger" })
+                        </div>
+                        <!-- Password input -->
+                        <div class="form-outline mb-3">
+                            @Html.LabelFor(row => Model.Password, "Mật khẩu", new { @Class = "form-label" })
+                            @Html.PasswordFor(model => model.Password, new { @class = "form-control form-control-lg", placeholder = "Nhập vào mật khẩu" })
+                            @Html.ValidationMessageFor(row => Model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        <!-- Retype Password input -->
+                        <div class="form-outline mb-3">
+                            @Html.Label("Nhập lại mật khẩu", new { @for = "retypePassword" })
+                            @Html.TextBox("retypePassword", "", new { @class = "form-control", type = "password", placeholder = "Nhập lại mật khẩu" })
+                            @Html.ValidationMessage("retypePassword", "", new { @class = "text-danger" })
+                        </div>
+                        <!-- Email input -->
+                        <div class="form-outline mb-3">
+                            @Html.LabelFor(row => Model.EmailAddress, "Địa chỉ email", new { @Class = "form-label" })
+                            @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control form-control-lg", placeholder = "Nhập vào email" })
+                            @Html.ValidationMessageFor(row => Model.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                        <!-- PhoneNumber input -->
+                        <div class="form-outline mb-3">
+                            @Html.LabelFor(row => Model.PhoneNumber, "Số điện thoại", new { @Class = "form-label" })
+                            @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control form-control-lg", placeholder = "Nhập vào số điện thoại" })
+                            @Html.ValidationMessageFor(row => Model.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary btn-lg"
+                                    style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                                Đăng Ký
+                            </button>
+                            <p class="small fw-bold mt-2 pt-1 mb-0">
+                                Đã có tài khoản? <a href="\User\Login"
+                                                    class="link-danger">Đăng Nhập</a>
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

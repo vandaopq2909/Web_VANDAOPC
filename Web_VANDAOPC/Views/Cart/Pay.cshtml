@@ -1,0 +1,103 @@
+﻿@model Web_VANDAOPC.Models.User
+@{
+    ViewBag.Title = "Pay";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<div class="container-fluid mb-5">
+    <div class="text-danger text-center mb-3" style="margin-top: -20px">
+        <h2>XÁC NHẬN THANH TOÁN</h2>
+    </div>
+    <div style="display: flex; justify-content:space-around;">
+        <div id="left">
+            @using (Html.BeginForm("Pay", "Cart", FormMethod.Post, new { id = "PayForm" }))
+            {
+                <div class="row mt-3">
+                    <div>
+                        <h4>Thông Tin Khách Hàng</h4>
+                    </div>
+                </div>
+                <!-- Role input -->
+                <input type="hidden" name="Role" value="user" />
+                <!-- UserName input -->
+                <input type="hidden" name="UserName" value="customer" />
+                <!-- Password input -->
+                <input type="hidden" name="Password" value="customer" />
+                <div class="row mt-3" style="min-width: 500px;">
+                    <div>
+                        @Html.LabelFor(row => Model.DisplayName, "Tên Khách Hàng", new { @Class = "form-label" })
+                        @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control", placeholder = "Nhập Vào Tên Khách Hàng" })
+                        @Html.ValidationMessageFor(row => Model.DisplayName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div>
+                        @Html.LabelFor(row => Model.EmailAddress, "Email", new { @Class = "form-label" })
+                        @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control", placeholder = "Nhập Vào Email" })
+                        @Html.ValidationMessageFor(row => Model.EmailAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div>
+                        @Html.LabelFor(row => Model.PhoneNumber, "Số Điện Thoại", new { @Class = "form-label" })
+                        @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", placeholder = "Nhập Vào Số Điện Thoại" })
+                        @Html.ValidationMessageFor(row => Model.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div>
+                        @Html.Label("Địa Chỉ Giao Hàng", new { @for = "CustomerAddress" })
+                        @Html.TextBox("CustomerAddress", "", new { @class = "form-control", placeholder = "Nhập Địa Chỉ Giao Hàng" })
+                        @Html.ValidationMessage("CustomerAddress", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="mt-4" style="display: flex; justify-content: space-evenly;">
+                    <a href="\Cart\Index" class="btn btn-success">Quay Lại Giỏ Hàng</a>
+                    <button type="submit" class="btn btn-danger">Xác Nhận Thanh Toán</button>
+                </div>
+            }
+
+        </div>
+        <div id="right">
+            <div class="row mt-3">
+                <div>
+                    <h4>Đơn Hàng Của Bạn</h4>
+                </div>
+            </div>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr class="text-center align-middle">
+                        <th scope="col" style="min-width: 400px;">Tên Sản Phẩm</th>
+                        <th scope="col" style="min-width: 50px;">Số Lượng</th>
+                        <th scope="col" style="min-width: 200px;">Tổng Tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 1; double totPrice = 0;}
+                    @foreach (var item in ViewBag.listCart)
+                    {
+                        <tr class="text-center align-middle">
+                            <td>@item.Product.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>
+                                @{
+                                    double Price = Convert.ToDouble(item.Quantity * item.Product.Price);
+                                    i++;
+                                    totPrice += Price;
+                                }
+                                @Price.ToString("N0") VND
+                            </td>
+                        </tr>
+
+                    }
+                    <tr>
+                        <td colspan="2" class="text-center fw-bold">Tổng Tiền</td>
+                        <td class="text-center fw-bold">@totPrice.ToString("N0") VND</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

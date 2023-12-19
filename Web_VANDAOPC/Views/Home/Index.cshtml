@@ -1,0 +1,152 @@
+﻿@model List<Web_VANDAOPC.Models.Product>
+@{
+    ViewBag.Title = "Trang Chủ";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+
+@if (ViewBag.Search == "")
+{
+    <div class="container-fluid mt-3">
+        <h3 class="text-danger" style="margin-left:20px">
+            <img width="48" height="48" src="https://img.icons8.com/fluency/48/ps-controller.png" alt="ps-controller" />
+            PC GAMING
+            <img width="40" height="40" style="margin-bottom:10px;" src="https://img.icons8.com/emoji/48/fire.png" alt="fire" />
+        </h3>
+        <div class="container-fluid mt-1" style="display:flex; flex-wrap: wrap; justify-content: center;">
+            @foreach (var item in @ViewBag.listPCGaming)
+            {
+                <div class="card p-2 mx-1" style="width: 15rem;">
+                    <a href="\product\detail\@item.Id">
+                        <img src="\Images\@item.Img" class="card-img-top" alt="...">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="\product\detail\@item.Id" style="text-decoration: none; color:black;">@item.Name</a>
+                        </h5>
+                        <h5 class="card-text text-danger">@string.Format(info, "{0:C0}", @item.Price)</h5>
+                        <p class="card-text bg-light text-center">@item.Details</p>
+                        <div class="text-center">
+                            <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Mua Ngay</a>
+                            <a href="\Cart\Add\@item.Id" class="btn btn-outline-success px-4">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </a>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4 class="text-danger">Sản phẩm tạm thời hết hàng!</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="container-fluid mt-3">
+        <h3 class="text-danger" style="margin-left:20px">
+            <img width="48" height="48" src="https://img.icons8.com/plasticine/48/business--v2.png" alt="business--v2" />
+            PC LÀM VIỆC
+            <img width="40" height="40" style="margin-bottom:10px;" src="https://img.icons8.com/emoji/48/fire.png" alt="fire" />
+        </h3>
+        <div class="container-fluid mt-1" style="display: flex; flex-wrap: wrap; justify-content: center;">
+            @foreach (var item in @ViewBag.listPCWork)
+            {
+                <div class="card p-2 mx-1" style="width: 15rem;">
+                    <a href="\product\detail\@item.Id">
+                        <img src="\Images\@item.Img" class="card-img-top" alt="...">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="\product\detail\@item.Id" style="text-decoration: none; color:black;">@item.Name</a>
+                        </h5>
+                        <h5 class="card-text text-danger">@string.Format(info, "{0:C0}", @item.Price)</h5>
+                        <p class="card-text bg-light text-center">@item.Details</p>
+                        <div class="text-center">
+                            <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Mua Ngay</a>
+                            <a href="\Cart\Add\@item.Id" class="btn btn-outline-success px-4">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </a>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4 class="text-danger">Sản phẩm tạm thời hết hàng!</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="container-fluid mt-3">
+        <h3 class="text-danger">Search</h3>
+        <div class="container-fluid mt-1" style="display:flex; flex-wrap: wrap;">
+            @foreach (var item in @ViewBag.listSearch)
+            {
+                <div class="card p-2 mx-1" style="width: 15rem;">
+                    <a href="\product\detail\@item.Id">
+                        <img src="\Images\@item.Img" class="card-img-top" alt="...">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="\product\detail\@item.Id" style="text-decoration: none; color:black;">@item.Name</a>
+                        </h5>
+                        <h5 class="card-text text-danger">@string.Format(info, "{0:C0}", @item.Price)</h5>
+                        <p class="card-text bg-light text-center">@item.Details</p>
+                        <div class="text-center">
+                            <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Mua Ngay</a>
+                            <a href="\Cart\Add\@item.Id" class="btn btn-outline-success px-4">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </a>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4 class="text-danger">Sản phẩm tạm thời hết hàng!</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+

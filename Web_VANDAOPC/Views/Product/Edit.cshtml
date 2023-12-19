@@ -1,0 +1,85 @@
+﻿@model Web_VANDAOPC.Models.Product
+@{
+    ViewBag.Title = "Chỉnh Sửa Sản Phẩm";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<div class="container-fluid">
+    @using (Html.BeginForm("Edit", "Product", FormMethod.Post, new { id = "CreateForm", enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10 text-center text-danger" style="font-size: 2em; text-transform: uppercase;">
+                <h2>Chỉnh Sửa Sản Phẩm</h2>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-1"></div>
+            <div class="col-5">
+                @Html.LabelFor(row => Model.Name, "Tên Sản Phẩm")
+                @Html.TextBoxFor(row => Model.Name, new { @Class = "form-control" })
+                @Html.ValidationMessageFor(row => Model.Name, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-5">
+                @Html.LabelFor(row => Model.Price, "Giá")
+                @Html.TextBoxFor(row => Model.Price, new { @Class = "form-control" })
+                @Html.ValidationMessageFor(row => Model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-1"></div>
+            <div class="col-5">
+                @Html.LabelFor(row => Model.Brand, "Thương Hiệu")
+                @Html.DropDownListFor(row => Model.Brand, new List<SelectListItem>
+                   {
+                       new SelectListItem{Text="VANDAOPC", Value="VANDAOPC"},
+                       new SelectListItem{Text="ASUS", Value="ASUS"},
+                       new SelectListItem{Text="MSI", Value="MSI"},
+                       new SelectListItem{Text="GIGABYTE", Value="GIGABYTE"},
+                       new SelectListItem{Text="ROG", Value="ROG"},
+                       new SelectListItem{Text="ROG", Value="Khác"}
+                   }, "Chọn thương hiệu...", new { @Class = "form-control" })
+            </div>
+            <div class="col-5">
+                @Html.LabelFor(row => Model.Details, "Cấu Hình Chi Tiết")
+                @Html.TextBoxFor(row => Model.Details, new { @Class = "form-control" })
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-1"></div>
+            <div class="col-5">
+                @Html.LabelFor(row => Model.Img, "Ảnh Sản Phẩm")
+                <input type="file" name="imageFile" id="imageFile" class="form-control" />
+            </div>
+            <div class="col-5">
+                @Html.LabelFor(row => Model.Status, "Tình Trạng Sản Phẩm")
+                @Html.DropDownListFor(row => Model.Status, new List<SelectListItem>
+                   {
+                       new SelectListItem{Text="Còn Hàng", Value="Còn Hàng"},
+                       new SelectListItem{Text="Hết Hàng", Value="Hết Hàng"}
+                   }, "Chọn Tình Trạng...", new { @Class = "form-control" })
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-1"></div>
+            <div class="col-5">
+                @Html.LabelFor(row => Model.Description, "Mô Tả Sản Phẩm")
+                @Html.TextBoxFor(row => Model.Description, new { @Class = "form-control" })
+            </div>
+            <div class="col-5">
+                @Html.LabelFor(row => Model.CatId, "Loại Sản Phẩm")
+                @Html.DropDownListFor(row => Model.CatId, new SelectList(ViewBag.listCategory, "CatId", "Name"),
+                "Chọn Loại Sản Phẩm...", new { @Class = "form-control" })
+                @Html.ValidationMessageFor(row => Model.CatId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-1"></div>
+            <div class="col-10 text-center">
+                <button type="submit" class="btn btn-success px-4 pt-2 pb-2">Submit</button>
+            </div>
+        </div>
+    }
+
+</div>
+

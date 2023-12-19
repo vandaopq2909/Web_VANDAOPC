@@ -1,0 +1,105 @@
+﻿@model List<Web_VANDAOPC.Models.Product>
+@{
+    ViewBag.Title = "Sản Phẩm Theo Danh Mục";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+<div class="container-fluid mt-3">
+    <h3 class="text-danger">Sản Phẩm Theo Danh Mục: @ViewBag.CatName</h3>
+        <div class="container-fluid mt-1" style="display:flex; flex-wrap: wrap;">
+            @foreach (var item in Model)
+            {
+                <div class="card p-2 mx-1" style="width: 15rem;">
+                    <a href="\product\detail\@item.Id">
+                        <img src="\Images\@item.Img" class="card-img-top" alt="...">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="\product\detail\@item.Id" style="text-decoration: none; color: black;">@item.Name</a>
+                        </h5>
+                        <h5 class="card-text text-danger">@string.Format(info, "{0:C0}", @item.Price)</h5>
+                        <p class="card-text bg-light text-center">@item.Details</p>
+                        <div class="text-center">
+                            <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Mua Ngay</a>
+                            <a href="\Cart\Add\@item.Id" class="btn btn-outline-success px-4">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </a>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4 class="text-danger">Sản phẩm tạm thời hết hàng!</h4>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div> 
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="3">
+                        @{
+                            int PrevPage = ViewBag.page - 1;
+                            if (PrevPage <= 0)
+                            {
+                                PrevPage = 1;
+                            }
+                            int Nextpage = ViewBag.page + 1;
+                            if (Nextpage > ViewBag.NoOfPages)
+                            {
+                                Nextpage = ViewBag.NoOfPages;
+                            }
+                        }
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link" href="\Product\SearchByCategory\@ViewBag.CatId?page=@PrevPage">
+                                    Prev
+                                </a>
+                            </li>
+                            @for (int i = 0; i < ViewBag.NoOfPages; i++)
+                            {
+                                if (i + 1 == ViewBag.page)
+                                {
+                                    <li class="page-item active">
+                                        <a class="page-link" href="\Product\SearchByCategory\@ViewBag.CatId?page=@(i+1)">
+                                            @(i + 1)
+                                        </a>
+                                    </li>
+
+                                }
+                                else
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="\Product\SearchByCategory\@ViewBag.CatId?page=@(i+1)">
+                                            @(i + 1)
+                                        </a>
+                                    </li>
+
+                                }
+
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="\Product\SearchByCategory\@ViewBag.CatId?page=@Nextpage">
+                                    Next
+                                </a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+</div>
+
+
